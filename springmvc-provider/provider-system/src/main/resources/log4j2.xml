@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="off">
+    <properties>
+        <property name="LOG_HOME">logs/</property>
+        <!--服务名-->
+        <property name="SERVER_NAME">provider-system</property>
+        <!-- 日志备份目录 -->
+        <property name="BACKUP_HOME">backup</property>
+        <!-- 日志切割的最小单位 -->
+        <property name="EVERY_FILE_SIZE">200 MB</property>
+        <!-- 日志输出级别 -->
+        <property name="OUTPUT_LOG_LEVEL">DEBUG</property>
+        <!--清理周期-->
+        <property name="CLEAN_AGE">7d</property>
+        <!--
+                %d{yyyy-MM-dd HH:mm:ss, SSS} : 日志生产时间
+                %p : 日志输出格式
+                %c : logger的名称
+                %m : 日志内容，即 logger.info("message")
+                %n : 换行符
+                %C : Java类名
+                %L : 日志输出所在行数
+                %M : 日志输出所在方法名
+                hostName : 本地机器名
+                hostAddress : 本地ip地址
+             -->
+        <property name="LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss z}] %-5level %c%M - %msg%xEx%n</property>
+    </properties>
+    <!--先定义所有的appender-->
+    <appenders>
+        <!--这个输出控制台的配置-->
+        <console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--指定输出日志的格式-->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </console>
+
+        <!-- 程序员调试日志 -->
+        <!--这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <!-- 按月生成归档日志，可以使用 filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz" -->
+        <!-- 显示error级别之外的信息 -->
+        <RollingFile name="RollingFileDebug" fileName="${LOG_HOME}/debug.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log.gz">
+            <!--日记格式-->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <!--日记策略-->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${EVERY_FILE_SIZE}" />
+                <TimeBasedTriggeringPolicy interval="10" modulate="true"/>
+            </Policies>
+            <!--自动删除超过120天的日志压缩文件-->
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_HOME}" maxDepth="2">
+                    <IfFileName glob="${LOG_HOME}/debug-*.log.gz"/>
+                    <IfLastModified age="${CLEAN_AGE}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/info.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <!--日记格式-->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <!--日记策略-->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${EVERY_FILE_SIZE}" />
+                <TimeBasedTriggeringPolicy interval="24" modulate="true" />
+            </Policies>
+
+            <Filters>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="debug" onMatch="DENY" onMismatch="DENY" />
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="DENY" />
+                <ThresholdFilter level="trace" onMatch="DENY" onMismatch="DENY" />
+            </Filters>
+
+            <!--自动删除超过120天的日志压缩文件-->
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_HOME}" maxDepth="2">
+                    <IfFileName glob="${LOG_HOME}/info-*.gz"/>
+                    <IfLastModified age="${CLEAN_AGE}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <!-- 第三方日志系统 -->
+        <logger name="org.springframework.core" level="info" />
+        <logger name="org.springframework.beans" level="info" />
+        <logger name="org.springframework.context" level="info" />
+        <logger name="org.springframework.web" level="info" />
+        <logger name="org.springframework.jdbc" level="info" />
+        <logger name="org.apache.activemq" level="info" />
+        <logger name="org.mybatis.spring" level="info" />
+
+        <logger name="com.baomidou.mybatisplus.MybatisConfiguration" level="info" />
+
+        <logger name="org.apache.http" level="info" />
+
+         <asyncRoot  level="${OUTPUT_LOG_LEVEL}">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileDebug"/>
+            <appender-ref ref="RollingFileInfo"/>
+        </asyncRoot >
+    </loggers>
+</configuration>

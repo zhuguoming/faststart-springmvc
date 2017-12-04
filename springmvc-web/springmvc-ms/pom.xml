@@ -14,5 +14,12 @@
   <build>
     <finalName>springmvc-ms</finalName>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.zjkh.zgm</groupId>
+      <artifactId>springmvc-facades</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 
 </project>
