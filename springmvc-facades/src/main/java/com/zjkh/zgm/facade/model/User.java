@@ -27,4 +27,6 @@ public class User implements Serializable {
 
     private Integer age;
 
+    private String address;
+
 }
