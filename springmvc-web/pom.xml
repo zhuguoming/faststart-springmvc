@@ -8,5 +8,6 @@
 
   <modules>
     <module>springmvc-ms</module>
+    <module>springmvc-tenant</module>
   </modules>
 </project>
