@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
@@ -13,17 +13,38 @@
     <!-- 启动包扫描功能，以便注册带有@Controller、@service、@repository、@Component等注解的类成为spring的bean -->
     <context:component-scan base-package="com.zjkh.zgm.ms.controller" />
 
+    <!--加载配置-->
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath:resource/*.properties"/>
 
-    <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/pages/"/>    <!-- 前缀 -->
-        <property name="suffix" value=".jsp"/>    <!-- 后缀 -->
+    <!--freemarker start-->
+    <bean id="freemarkerConfiguration"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:resource/freemarker.properties"/>
     </bean>
 
-    <!-- 访问静态文件（jpg,js,css）的方法 -->
-    <mvc:resources location="/img/" mapping="/files/**" />
-    <mvc:resources location="/js/" mapping="/scripts/**" />
-    <mvc:resources location="/css/" mapping="/styles/**" />
-    <mvc:resources location="/pages/" mapping="/Views/**" />
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver" p:prefix="${TPL}"
+          p:suffix=".ftl">
+        <property name="cache" value="false"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="requestContextAttribute" value="request"/>
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
+        <property name="freemarkerSettings" ref="freemarkerConfiguration"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="xml_escape" value-ref="fmXmlEscape"/>
+            </map>
+        </property>
+    </bean>
+    <!--freemarker end-->
 </beans>
