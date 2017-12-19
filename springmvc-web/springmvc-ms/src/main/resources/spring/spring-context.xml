@@ -9,4 +9,5 @@
                                    location="classpath*:*.properties" />
 
     <import resource="classpath:dubbo/dubbo-consumer.xml"/>
+    <import resource="classpath:spring/spring-context-shiro.xml"/>
 </beans>
