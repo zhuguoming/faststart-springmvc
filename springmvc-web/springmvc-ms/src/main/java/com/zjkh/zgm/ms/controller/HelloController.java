@@ -27,12 +27,15 @@ public class HelloController {
     private IUserService userService;
 
     @RequestMapping("hello")
-    public ModelAndView hello(){
-        List<User> users = userService.selectList(new EntityWrapper<User>());
-        ModelAndView model=new ModelAndView("hello");
-        model.addObject("user",users);
-        return model;
+    public String hello(){
+        return "hello";
+    }
 
+    @RequestMapping("user")
+    @ResponseBody
+    public String getUser(){
+        User user = userService.selectById(1);
+        return JSON.toJSONString(user);
     }
 
     @RequestMapping("users")
@@ -72,18 +75,5 @@ public class HelloController {
         }
         return "login";
     }
-
-    @RequestMapping("user")
-    @ResponseBody
-    public String getUser(){
-        User user = userService.selectById(1);
-        return JSON.toJSONString(user);
-
-
-
-    }
-
-
-
 
 }

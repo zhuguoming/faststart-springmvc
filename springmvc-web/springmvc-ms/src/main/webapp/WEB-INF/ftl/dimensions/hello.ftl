@@ -3,21 +3,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<table class="caozuo audit" style="margin-top: 50px;">
-<tr>
-    <th width="35%">id</th>
-    <th  width="35%">姓名</th>
-    <th  width="30%">年龄</th>
-</tr>
+    <title>首页</title>
+    <style>
+        .float {
+            left: 0;
+            position: fixed;
+            top: 10%;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            font-size:40px;
+        }
 
-    <#list user as users>
-				<tr>
-                    <td>${users.age}</td>
-                    <td>${users.name}</td>
-                    <td>${users.id}</td>
-                </tr>
-    </#list>
-</table>
+        .bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<img class="bg" src='${S_URL}/static/img/kobi.jpg'/>
+<div class="float">
+    <a href="${S_URL}/blog">SEE YOU</a>
+</div>
+
+</body>
 </html>

@@ -9,17 +9,34 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@TableName("content")
+@TableName("blog")
 @Data
-public class Content implements Serializable {
+public class Blog implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @TableId(type = IdType.UUID)
     private Integer id;
-    private String name;
+
+    /**
+     * 标题
+     */
     private String title;
-    private Date time;
-    private String test;
+
+    /**
+     * 发布时间
+     */
+    private Date releaseDate;
+
+    /**
+     * 内容
+     */
+    private String content;
+
+    /**
+     * 发布人
+     */
+    private String releaseBy;
 
 
 }
