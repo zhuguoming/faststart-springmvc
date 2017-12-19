@@ -12,4 +12,7 @@ import com.zjkh.zgm.facade.model.User;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+
+
+
 }

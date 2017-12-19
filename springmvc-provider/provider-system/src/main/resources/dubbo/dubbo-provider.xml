@@ -5,4 +5,5 @@
 
 
     <dubbo:service retries="0" interface="com.zjkh.zgm.facade.service.IUserService" ref="userService" version="1.0.0"/>
+    <dubbo:service retries="0" interface="com.zjkh.zgm.facade.service.IContentService" ref="contentService" version="1.0.0"/>
 </beans>

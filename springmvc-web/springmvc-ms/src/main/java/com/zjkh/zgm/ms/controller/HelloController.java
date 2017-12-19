@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -26,11 +27,15 @@ public class HelloController {
     private IUserService userService;
 
     @RequestMapping("hello")
-    public String hello(){
-        return "hello";
+    public ModelAndView hello(){
+        List<User> users = userService.selectList(new EntityWrapper<User>());
+        ModelAndView model=new ModelAndView("hello");
+        model.addObject("user",users);
+        return model;
+
     }
 
-    @RequestMapping("user")
+    @RequestMapping("users")
     @ResponseBody
     public String getUserList(){
         List<User> users = userService.selectList(new EntityWrapper<User>());
@@ -67,4 +72,18 @@ public class HelloController {
         }
         return "login";
     }
+
+    @RequestMapping("user")
+    @ResponseBody
+    public String getUser(){
+        User user = userService.selectById(1);
+        return JSON.toJSONString(user);
+
+
+
+    }
+
+
+
+
 }
