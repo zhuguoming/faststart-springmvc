@@ -12,4 +12,10 @@ import com.zjkh.zgm.facade.model.User;
  */
 public interface IUserService extends IService<User>{
 
+    /**
+     * 依据用户名称查询用户
+     * @param username
+     * @return
+     */
+    User selectUserByName(String username);
 }

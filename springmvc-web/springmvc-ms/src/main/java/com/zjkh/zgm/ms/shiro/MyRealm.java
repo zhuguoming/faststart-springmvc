@@ -1,15 +1,21 @@
 package com.zjkh.zgm.ms.shiro;
 
+import com.zjkh.zgm.facade.model.User;
+import com.zjkh.zgm.facade.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  */
 public class MyRealm extends AuthorizingRealm {
+
+    @Autowired
+    private IUserService userService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -33,9 +39,12 @@ public class MyRealm extends AuthorizingRealm {
         //UsernamePasswordToken对象用来存放提交的登录信息
         UsernamePasswordToken token=(UsernamePasswordToken) authenticationToken;
 
-        if("admin".equals(token.getUsername())){
-            return new SimpleAuthenticationInfo("admin", "123456", getName());
+        User user = userService.selectUserByName(token.getUsername());
+
+        if(null==user){
+            return null;
+        }else {
+            return new SimpleAuthenticationInfo(user.getName(), user.getPassword(), getName());
         }
-        return null;
     }
 }

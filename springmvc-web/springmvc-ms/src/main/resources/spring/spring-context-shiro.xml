@@ -17,7 +17,8 @@
     </bean>
 
     <!-- realm -->
-    <bean id="myRealm" class="com.zjkh.zgm.ms.shiro.MyRealm"/>
+    <bean id="myRealm" class="com.zjkh.zgm.ms.shiro.MyRealm">
+    </bean>
 
     <!-- 配置shiro的过滤器工厂类，id- shiroFilter要和我们在web.xml中配置的过滤器一致 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -50,7 +51,7 @@
     <bean id="formAuthenticationFilter" class="com.zjkh.zgm.ms.shiro.MyFormAuthenticationFilter">
         <property name="usernameParam" value="username" />
         <property name="passwordParam" value="password" />
-        <property name="rememberMeParam" value="rememberMe" />
+        <property name="rememberMeParam" value="rememberMe"/>
         <property name="successUrl" value="/hello"/>
     </bean>
 

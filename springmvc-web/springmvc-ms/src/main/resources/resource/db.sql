@@ -7,4 +7,13 @@ CREATE TABLE `blog` (
   PRIMARY KEY (`id`))
 COMMENT = '博客';
 
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` varchar(32) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `address` varchar(128) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 

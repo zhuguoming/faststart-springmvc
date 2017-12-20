@@ -20,10 +20,7 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        if (request.getAttribute(getFailureKeyAttribute()) != null) {
-            return true;
-        }
-        return super.onAccessDenied(request, response, mappedValue);
+        return request.getAttribute(getFailureKeyAttribute()) != null || super.onAccessDenied(request, response, mappedValue);
     }
 
     @Override
