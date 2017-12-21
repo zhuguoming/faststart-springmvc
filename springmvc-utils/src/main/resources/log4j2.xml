@@ -3,7 +3,7 @@
     <properties>
         <property name="LOG_HOME">logs/</property>
         <!--服务名-->
-        <property name="SERVER_NAME">web-blog</property>
+        <property name="SERVER_NAME">springmvc-utils</property>
         <!-- 日志备份目录 -->
         <property name="BACKUP_HOME">backup</property>
         <!-- 日志切割的最小单位 -->
