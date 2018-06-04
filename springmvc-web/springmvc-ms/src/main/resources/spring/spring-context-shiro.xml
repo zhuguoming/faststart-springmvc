@@ -52,7 +52,7 @@
         <property name="usernameParam" value="username" />
         <property name="passwordParam" value="password" />
         <property name="rememberMeParam" value="rememberMe"/>
-        <property name="successUrl" value="/hello"/>
+        <property name="successUrl" value="/index"/>
     </bean>
 
 

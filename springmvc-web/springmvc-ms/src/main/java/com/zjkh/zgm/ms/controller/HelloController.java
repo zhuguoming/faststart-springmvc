@@ -25,6 +25,11 @@ public class HelloController {
     @Autowired
     private IUserService userService;
 
+    @RequestMapping("index")
+    public String index(){
+        return "index";
+    }
+
     @RequestMapping("hello")
     public String hello(){
         return "hello";

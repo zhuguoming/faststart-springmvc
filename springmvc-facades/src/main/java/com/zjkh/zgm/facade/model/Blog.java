@@ -38,5 +38,10 @@ public class Blog implements Serializable {
      */
     private String releaseBy;
 
+    /**
+     * todo 测试
+     */
+    private EnumTest en;
+
 
 }

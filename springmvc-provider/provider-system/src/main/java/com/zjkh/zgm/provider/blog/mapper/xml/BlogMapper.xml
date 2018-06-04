@@ -3,4 +3,7 @@
 <mapper namespace="com.zjkh.zgm.provider.blog.mapper.BlogMapper">
 
 
+    <select id="selectByBlog" resultType="com.zjkh.zgm.facade.model.Blog">
+        SELECT * from blog where id = #{en}
+    </select>
 </mapper>

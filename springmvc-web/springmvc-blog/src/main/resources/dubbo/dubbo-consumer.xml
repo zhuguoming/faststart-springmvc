@@ -9,5 +9,6 @@
     <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" check="false" />
 
     <dubbo:reference interface="com.zjkh.zgm.facade.service.IUserService" id="userService" version="1.0.0" retries="0" check="false" />
+    <dubbo:reference interface="com.zjkh.zgm.facade.service.IBlogService" id="blogService" version="1.0.0" retries="0" check="false" />
 
 </beans>

@@ -10,4 +10,8 @@ import org.springframework.stereotype.Service;
 @Service("blogService")
 public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBlogService {
 
+    @Override
+    public Blog selectByBlog(Blog blog) {
+        return baseMapper.selectByBlog(blog);
+    }
 }
